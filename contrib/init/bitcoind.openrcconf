@@ -1,0 +1,33 @@
+# /etc/conf.d/firstcoind: config file for /etc/init.d/firstcoind
+
+# Config file location
+#FIRSTCOIND_CONFIGFILE="/etc/firstcoin/firstcoin.conf"
+
+# What directory to write pidfile to?  (created and owned by $FIRSTCOIND_USER)
+#FIRSTCOIND_PIDDIR="/var/run/firstcoind"
+
+# What filename to give the pidfile
+#FIRSTCOIND_PIDFILE="${FIRSTCOIND_PIDDIR}/firstcoind.pid"
+
+# Where to write firstcoind data (be mindful that the blockchain is large)
+#FIRSTCOIND_DATADIR="/var/lib/firstcoind"
+
+# User and group to own firstcoind process
+#FIRSTCOIND_USER="firstcoin"
+#FIRSTCOIND_GROUP="firstcoin"
+
+# Path to firstcoind executable
+#FIRSTCOIND_BIN="/usr/bin/firstcoind"
+
+# Nice value to run firstcoind under
+#FIRSTCOIND_NICE=0
+
+# Additional options (avoid -conf and -datadir, use flags above)
+FIRSTCOIND_OPTS="-disablewallet"
+
+# The timeout in seconds OpenRC will wait for firstcoind to terminate
+# after a SIGTERM has been raised.
+# Note that this will be mapped as argument to start-stop-daemon's
+# '--retry' option, which means you can specify a retry schedule
+# here. For more information see man 8 start-stop-daemon.
+FIRSTCOIND_SIGTERM_TIMEOUT=60

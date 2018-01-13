@@ -1,0 +1,67 @@
+#!/bin/bash
+#
+#  firstcoind The FirstCoin core server.
+#
+#
+# chkconfig: 345 80 20
+# description: firstcoind
+# processname: firstcoind
+#
+
+# Source function library.
+. /etc/init.d/functions
+
+# you can override defaults in /etc/sysconfig/firstcoind, see below
+if [ -f /etc/sysconfig/firstcoind ]; then
+        . /etc/sysconfig/firstcoind
+fi
+
+RETVAL=0
+
+prog=firstcoind
+# you can override the lockfile via FIRSTCOIND_LOCKFILE in /etc/sysconfig/firstcoind
+lockfile=${FIRSTCOIND_LOCKFILE-/var/lock/subsys/firstcoind}
+
+# firstcoind defaults to /usr/bin/firstcoind, override with FIRSTCOIND_BIN
+firstcoind=${FIRSTCOIND_BIN-/usr/bin/firstcoind}
+
+# firstcoind opts default to -disablewallet, override with FIRSTCOIND_OPTS
+firstcoind_opts=${FIRSTCOIND_OPTS--disablewallet}
+
+start() {
+    echo -n $"Starting $prog: "
+    daemon $DAEMONOPTS $firstcoind $firstcoind_opts
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && touch $lockfile
+    return $RETVAL
+}
+
+stop() {
+    echo -n $"Stopping $prog: "
+    killproc $prog
+    RETVAL=$?
+    echo
+    [ $RETVAL -eq 0 ] && rm -f $lockfile
+    return $RETVAL
+}
+
+case "$1" in
+    start)
+        start
+        ;;
+    stop)
+        stop
+        ;;
+    status)
+        status $prog
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    *)
+        echo "Usage: service $prog {start|stop|status|restart}"
+        exit 1
+        ;;
+esac

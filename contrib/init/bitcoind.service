@@ -1,0 +1,22 @@
+[Unit]
+Description=FirstCoin's distributed currency daemon
+After=network.target
+
+[Service]
+User=firstcoin
+Group=firstcoin
+
+Type=forking
+PIDFile=/var/lib/firstcoind/firstcoind.pid
+ExecStart=/usr/bin/firstcoind -daemon -pid=/var/lib/firstcoind/firstcoind.pid \
+-conf=/etc/firstcoin/firstcoin.conf -datadir=/var/lib/firstcoind -disablewallet
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target

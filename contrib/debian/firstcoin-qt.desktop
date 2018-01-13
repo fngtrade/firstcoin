@@ -1,0 +1,12 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=FirstCoin
+Comment=FirstCoin P2P Cryptocurrency
+Comment[fr]=FirstCoin, monnaie virtuelle cryptographique pair à pair
+Comment[tr]=FirstCoin, eşten eşe kriptografik sanal para birimi
+Exec=firstcoin-qt %u
+Terminal=false
+Type=Application
+Icon=firstcoin128
+MimeType=x-scheme-handler/firstcoin;
+Categories=Office;Finance;

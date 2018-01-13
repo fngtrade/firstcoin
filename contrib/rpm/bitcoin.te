@@ -1,0 +1,81 @@
+policy_module(firstcoin, 1.100.1)
+
+########################################
+#
+# Declarations
+#
+
+type firstcoin_t;
+type firstcoin_exec_t;
+init_daemon_domain(firstcoin_t, firstcoin_exec_t)
+
+permissive firstcoin_t;
+
+type firstcoin_initrc_exec_t;
+init_script_file(firstcoin_initrc_exec_t)
+
+type firstcoin_conf_t;
+files_type(firstcoin_conf_t)
+
+type firstcoin_var_lib_t;
+files_type(firstcoin_var_lib_t)
+
+type firstcoin_var_run_t;
+files_type(firstcoin_var_run_t)
+
+type firstcoin_port_t;
+corenet_port(firstcoin_port_t)
+
+########################################
+#
+# firstcoin local policy
+#
+allow firstcoin_t self:process { fork };
+
+allow firstcoin_t self:fifo_file rw_fifo_file_perms;
+allow firstcoin_t self:unix_stream_socket create_stream_socket_perms;
+
+manage_dirs_pattern(firstcoin_t, firstcoin_conf_t, firstcoin_conf_t)
+manage_files_pattern(firstcoin_t, firstcoin_conf_t, firstcoin_conf_t)
+
+manage_dirs_pattern(firstcoin_t, firstcoin_var_lib_t, firstcoin_var_lib_t)
+manage_files_pattern(firstcoin_t, firstcoin_var_lib_t, firstcoin_var_lib_t)
+files_var_lib_filetrans(firstcoin_t, firstcoin_var_lib_t, { dir file })
+
+manage_dirs_pattern(firstcoin_t, firstcoin_var_run_t, firstcoin_var_run_t)
+manage_files_pattern(firstcoin_t, firstcoin_var_run_t, firstcoin_var_run_t)
+
+sysnet_dns_name_resolve(firstcoin_t)
+corenet_all_recvfrom_unlabeled(firstcoin_t)
+
+allow firstcoin_t self:tcp_socket create_stream_socket_perms;
+corenet_tcp_sendrecv_generic_if(firstcoin_t)
+corenet_tcp_sendrecv_generic_node(firstcoin_t)
+corenet_tcp_sendrecv_all_ports(firstcoin_t)
+corenet_tcp_bind_generic_node(firstcoin_t)
+
+gen_require(`
+    type firstcoin_port_t;
+')
+allow firstcoin_t firstcoin_port_t:tcp_socket name_bind;
+
+gen_require(`
+    type firstcoin_port_t;
+')
+allow firstcoin_t firstcoin_port_t:tcp_socket name_connect;
+
+domain_use_interactive_fds(firstcoin_t)
+
+files_read_etc_files(firstcoin_t)
+
+miscfiles_read_localization(firstcoin_t)
+
+sysnet_dns_name_resolve(firstcoin_t)
+
+allow firstcoin_t firstcoin_exec_t:file execute_no_trans;
+allow firstcoin_t self:process setsched;
+corecmd_exec_ls(firstcoin_t)
+corenet_tcp_connect_http_port(firstcoin_t)
+dev_read_urand(firstcoin_t)
+fs_getattr_xattr_fs(firstcoin_t)
+kernel_read_system_state(firstcoin_t)

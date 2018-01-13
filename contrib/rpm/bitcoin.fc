@@ -1,0 +1,8 @@
+/usr/bin/firstcoin-cli		--	gen_context(system_u:object_r:firstcoin_exec_t,s0)
+/usr/sbin/firstcoind		--	gen_context(system_u:object_r:firstcoin_exec_t,s0)
+/usr/lib(64)?/firstcoin/firstcoind		--	gen_context(system_u:object_r:firstcoin_exec_t,s0)
+
+/etc/firstcoin(/.*)?		gen_context(system_u:object_r:firstcoin_conf_t,s0)
+/var/lib/firstcoin(/.*)?		gen_context(system_u:object_r:firstcoin_var_lib_t,s0)
+
+(/var)?/run/firstcoind(/.*)?   gen_context(system_u:object_r:firstcoin_var_run_t,s0)
